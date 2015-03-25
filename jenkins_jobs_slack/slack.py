@@ -31,7 +31,7 @@ def slack_properties(parser, xml_parent, data):
                       ('notify-failure', 'notifyFailure'),
                       ('notify-backtonormal', 'notifyBackToNormal')):
         (XML.SubElement(notifier, attr)
-         .text) = data.get(opt, True) and 'true' or 'false'
+         .text) = 'true' if data.get(opt, True) else 'false'
 
 
 def slack_publisher(parser, xml_parent, data):
