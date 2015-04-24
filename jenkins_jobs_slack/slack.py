@@ -53,6 +53,9 @@ def slack_publisher(parser, xml_parent, data):
             build-server-url: https://jenkins.example.com
             room: '#jenkins'
     """
+    if data is None:
+        data = dict()
+
     notifier = XML.SubElement(
         xml_parent, 'jenkins.plugins.slack.SlackNotifier')
     notifier.set('plugin', 'slack@1.7')
