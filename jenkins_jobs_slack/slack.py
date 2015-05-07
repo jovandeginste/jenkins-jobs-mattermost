@@ -36,10 +36,6 @@ def slack_properties(parser, xml_parent, data):
         (XML.SubElement(notifier, attr)
          .text) = 'true' if data.get(opt, True) else 'false'
 
-    XML.SubElement(notifier, 'teamDomain').text = data.get('team-domain')
-    XML.SubElement(notifier, 'token').text = data.get('token')
-    XML.SubElement(notifier, 'room').text = data.get('room')
-
 
 def slack_publisher(parser, xml_parent, data):
     """yaml: slack
@@ -61,5 +57,7 @@ def slack_publisher(parser, xml_parent, data):
     notifier.set('plugin', 'slack@1.7')
 
     for (opt, attr) in (('team-domain', 'teamDomain'),
-                        ('auth-token', 'authToken')):
+                        ('auth-token', 'authToken'),
+                        ('build-server-url', 'buildServerUrl'),
+                        ('room', 'room')):
         XML.SubElement(notifier, attr).text = data.get(opt, '')
