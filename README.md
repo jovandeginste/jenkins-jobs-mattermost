@@ -18,6 +18,11 @@ Slack publisher and config for jenkins job builder
             notify-repeatedfailure: true
             include-test-summary: true
             show-commit-list: true
+            room: '#jenkins'
+            token: secret
+            team-domain: example.com
+            custom-message: message
+
       publishers:
         - slack:
             team-domain: example.com

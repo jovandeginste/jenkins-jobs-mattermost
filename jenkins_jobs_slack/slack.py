@@ -15,6 +15,13 @@ def slack_properties(parser, xml_parent, data):
             notify-unstable: true
             notify-failure: true
             notify-backtonormal: true
+            notify-repeatedfailure: true
+            include-test-summary: true
+            show-commit-list: true
+            room: '#jenkins'
+            token: secret
+            team-domain: example.com
+            custom-message: message
     """
     if data is None:
         data = dict()
@@ -35,6 +42,18 @@ def slack_properties(parser, xml_parent, data):
                       ('show-commit-list', 'showCommitList')):
         (XML.SubElement(notifier, attr)
          .text) = 'true' if data.get(opt, True) else 'false'
+
+    for opt, attr in (('team-domain', 'teamDomain'),
+                      ('token', 'token'),
+                      ('room', 'room')):
+        (XML.SubElement(notifier, attr)
+         .text) = data.get(opt)
+
+    if data.get('custom-message'):
+        (XML.SubElement(notifier, 'includeCustomMessage')
+         .text) = 'true'
+        (XML.SubElement(notifier, 'customMessage')
+         .text) = data.get('custom-message')
 
 
 def slack_publisher(parser, xml_parent, data):
