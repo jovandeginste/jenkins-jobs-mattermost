@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='jenkins-jobs-slack',
-    version='0.3.0',
+    version='0.3.1',
     description='Jenkins Job Builder Slack Notifier',
     url='https://github.com/asmundg/jenkins-jobs-slack',
     author='Aasmund Grammeltvedt',
