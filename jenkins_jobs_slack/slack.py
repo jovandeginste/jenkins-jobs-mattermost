@@ -18,6 +18,7 @@ def slack_properties(parser, xml_parent, data):
             notify-repeatedfailure: true
             include-test-summary: true
             show-commit-list: true
+            include-custom-message: true
             room: '#jenkins'
             token: secret
             team-domain: example.com
@@ -39,7 +40,8 @@ def slack_properties(parser, xml_parent, data):
                       ('notify-backtonormal', 'notifyBackToNormal'),
                       ('notify-repeatedfailure', 'notifyRepeatedFailure'),
                       ('include-test-summary', 'includeTestSummary'),
-                      ('show-commit-list', 'showCommitList')):
+                      ('show-commit-list', 'showCommitList'),
+                      ('include-custom-message', 'includeCustomMessage')):
         (XML.SubElement(notifier, attr)
          .text) = 'true' if data.get(opt, True) else 'false'
 
@@ -49,9 +51,7 @@ def slack_properties(parser, xml_parent, data):
         (XML.SubElement(notifier, attr)
          .text) = data.get(opt)
 
-    if data.get('custom-message'):
-        (XML.SubElement(notifier, 'includeCustomMessage')
-         .text) = 'true'
+    if data.get('include-custom-message'):
         (XML.SubElement(notifier, 'customMessage')
          .text) = data.get('custom-message')
 
