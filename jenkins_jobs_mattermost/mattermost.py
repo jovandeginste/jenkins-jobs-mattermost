@@ -1,13 +1,12 @@
 import xml.etree.ElementTree as XML
 
-
-def slack_properties(parser, xml_parent, data):
-    """yaml: slack
+def mattermost_publisher(parser, xml_parent, data):
+    """yaml: mattermost
 
     Example::
 
-      properties:
-        - slack:
+      publishers:
+        - mattermost:
             notify-start: true
             notify-success: true
             notify-aborted: true
@@ -18,18 +17,17 @@ def slack_properties(parser, xml_parent, data):
             notify-repeatedfailure: true
             include-test-summary: true
             show-commit-list: true
-            include-custom-message: true
             room: '#jenkins'
             token: secret
-            team-domain: example.com
+            host: example.com
             custom-message: message
     """
     if data is None:
         data = dict()
 
     notifier = XML.SubElement(
-        xml_parent, 'jenkins.plugins.slack.SlackNotifier_-SlackJobProperty')
-    notifier.set('plugin', 'slack@1.8')
+        xml_parent, 'jenkins.plugins.mattermost.MattermostNotifier')
+    notifier.set('plugin', '@1.0')
 
     for opt, attr in (('notify-start', 'startNotification'),
                       ('notify-success', 'notifySuccess'),
@@ -40,43 +38,23 @@ def slack_properties(parser, xml_parent, data):
                       ('notify-backtonormal', 'notifyBackToNormal'),
                       ('notify-repeatedfailure', 'notifyRepeatedFailure'),
                       ('include-test-summary', 'includeTestSummary'),
-                      ('show-commit-list', 'showCommitList'),
-                      ('include-custom-message', 'includeCustomMessage')):
+                      ('show-commit-list', 'showCommitList')):
         (XML.SubElement(notifier, attr)
          .text) = 'true' if data.get(opt, True) else 'false'
 
-    for opt, attr in (('team-domain', 'teamDomain'),
+    for opt, attr in (('host', 'host'),
                       ('token', 'token'),
                       ('room', 'room')):
         (XML.SubElement(notifier, attr)
          .text) = data.get(opt)
 
     if data.get('include-custom-message'):
+        (XML.SubElement(notifier, 'includeCustomMessage')
+         .text) = 'true'
         (XML.SubElement(notifier, 'customMessage')
          .text) = data.get('custom-message')
-
-
-def slack_publisher(parser, xml_parent, data):
-    """yaml: slack
-
-    Example::
-
-      publishers:
-        - slack:
-            team-domain: example.com
-            auth-token: secret
-            build-server-url: https://jenkins.example.com
-            room: '#jenkins'
-    """
-    if data is None:
-        data = dict()
-
-    notifier = XML.SubElement(
-        xml_parent, 'jenkins.plugins.slack.SlackNotifier')
-    notifier.set('plugin', 'slack@1.8')
-
-    for (opt, attr) in (('team-domain', 'teamDomain'),
-                        ('auth-token', 'authToken'),
-                        ('build-server-url', 'buildServerUrl'),
-                        ('room', 'room')):
-        XML.SubElement(notifier, attr).text = data.get(opt, '')
+    else:
+        (XML.SubElement(notifier, 'includeCustomMessage')
+         .text) = 'false'
+        (XML.SubElement(notifier, 'customMessage')
+         .text) = ''

@@ -1,20 +1,18 @@
 from setuptools import setup
 
 setup(
-    name='jenkins-jobs-slack',
-    version='0.3.2',
-    description='Jenkins Job Builder Slack Notifier',
-    url='https://github.com/asmundg/jenkins-jobs-slack',
-    author='Aasmund Grammeltvedt',
-    author_email='asmundg@big-oil.org',
+    name='jenkins-jobs-mattermost',
+    version='0.1.0',
+    description='Jenkins Job Builder Mattermost Notifier',
+    url='https://github.com/jovandeginste/jenkins-jobs-mattermost',
+    author='Jo Vandeginste',
+    author_email='jo.vandeginste@kuleuven.be',
     license='MIT license',
     install_requires=[],
     entry_points={
-        'jenkins_jobs.properties': [
-            'slack = jenkins_jobs_slack.slack:slack_properties'],
         'jenkins_jobs.publishers': [
-            'slack = jenkins_jobs_slack.slack:slack_publisher']},
-    packages=['jenkins_jobs_slack'],
+            'mattermost = jenkins_jobs_mattermost.mattermost:mattermost_publisher']},
+    packages=['jenkins_jobs_mattermost'],
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',

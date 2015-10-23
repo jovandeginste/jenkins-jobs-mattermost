@@ -1,13 +1,13 @@
-# jenkins-jobs-slack
+# jenkins-jobs-mattermost
 
-Slack publisher and config for jenkins job builder
+Mattermost publisher for jenkins job builder
 
 # Getting started
 
     - project:
       name: foo
-      properties:
-        - slack:
+      publishers:
+        - mattermost:
             notify-start: true
             notify-success: true
             notify-aborted: true
@@ -19,13 +19,6 @@ Slack publisher and config for jenkins job builder
             include-test-summary: true
             show-commit-list: true
             room: '#jenkins'
-            token: secret
-            team-domain: example.com
-            custom-message: message
-
-      publishers:
-        - slack:
-            team-domain: example.com
             auth-token: secret
-            build-server-url: https://jenkins.example.com
-            room: '#jenkins'
+            host: example.com
+            custom-message: message
