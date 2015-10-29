@@ -17,9 +17,9 @@ def mattermost_publisher(parser, xml_parent, data):
             notify-repeatedfailure: true
             include-test-summary: true
             show-commit-list: true
+            endpoint: example.com
             room: '#jenkins'
-            token: secret
-            host: example.com
+						icon: 'http://url.to/image.png'
             custom-message: message
     """
     if data is None:
@@ -42,9 +42,9 @@ def mattermost_publisher(parser, xml_parent, data):
         (XML.SubElement(notifier, attr)
          .text) = 'true' if data.get(opt, True) else 'false'
 
-    for opt, attr in (('host', 'host'),
-                      ('token', 'token'),
-                      ('room', 'room')):
+    for opt, attr in (('endpoint', 'endpoint'),
+                      ('room', 'room'),
+                      ('icon', 'icon')):
         (XML.SubElement(notifier, attr)
          .text) = data.get(opt)
 
